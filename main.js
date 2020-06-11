@@ -10,14 +10,14 @@ async function main() {
     const latestVersion = await getLatestStableVersion();
     
     if (latestVersion !== lastCheckedVersion) {
-      const message = `🥧 New version ${latestVersion} is now available 🕳 
+      const message = `🥧 New version '${latestVersion}' is now available 🕳 
       
       Upgrade with 'pihole -up'`;
       sendPushoverNotification(message);
       saveLastCheckedVersion(latestVersion);
     }
     else {
-      const message = `ℹ No upgrade for Pi-hole, ${latestVersion} is the latest.`;
+      const message = `ℹ No upgrade for Pi-hole, '${latestVersion}' is the latest.`;
       sendPushoverNotification(message);
     }
   } catch (error) {
