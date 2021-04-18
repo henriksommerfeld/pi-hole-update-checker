@@ -9,9 +9,9 @@ export function sendPushoverNotification(message) {
     body: {
       token: `${process.env.PUSHOVER_TOKEN}`,
       user: `${process.env.PUSHOVER_USER}`,
-      message: message
+      message: message,
     },
-    json: true
+    json: true,
   };
 
   rp(options)
@@ -21,4 +21,4 @@ export function sendPushoverNotification(message) {
     .catch(function (err) {
       console.error(err);
     });
-  }
+}
