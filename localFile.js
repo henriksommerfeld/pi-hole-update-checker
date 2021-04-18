@@ -3,18 +3,22 @@ import * as path from 'path';
 
 const savedVersionFilePath = path.resolve(
   path.resolve(''),
-  './last-checked-version.txt'
+  './last-checked-version.json'
 );
 
 export function getLastCheckedVersion() {
   if (!existsSync(savedVersionFilePath)) {
-    return '0.0';
+    return {
+      core: '0.0',
+      adminLte: '0.0',
+      ftl: '0.0',
+    };
   }
 
   const lastCheckedVersion = readFileSync(savedVersionFilePath, 'utf8');
-  return lastCheckedVersion;
+  return JSON.parse(lastCheckedVersion);
 }
 
 export function saveLastCheckedVersion(version) {
-  writeFileSync(savedVersionFilePath, version);
+  writeFileSync(savedVersionFilePath, JSON.stringify(version));
 }

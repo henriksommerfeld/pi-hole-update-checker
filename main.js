@@ -1,4 +1,4 @@
-import { getLatestStableVersion } from './latest-version-checker.js';
+import { getLatestVersion } from './latest-version-checker.js';
 import { sendPushoverNotification } from './notify.js';
 import { getLastCheckedVersion, saveLastCheckedVersion } from './localFile.js';
 
@@ -6,16 +6,29 @@ async function main() {
   try {
     const lastCheckedVersion = getLastCheckedVersion();
     console.log('main -> lastCheckedVersion', lastCheckedVersion);
-    const latestVersion = await getLatestStableVersion();
-
-    if (latestVersion !== lastCheckedVersion) {
-      const message = `🥧 New version '${latestVersion}' is now available 🕳
-
-      Upgrade with 'pihole -up'`;
+    const corePromise = getLatestVersion(releasePages.core);
+    const adminLtePromise = getLatestVersion(releasePages.adminLte);
+    const ftlPromise = getLatestVersion(releasePages.ftl);
+    const [
+      latestCoreVersion,
+      latestAdminLteVersion,
+      latestFtlVersion,
+    ] = await Promise.all([corePromise, adminLtePromise, ftlPromise]);
+    const latestVersions = {
+      core: latestCoreVersion,
+      adminLte: latestAdminLteVersion,
+      ftl: latestFtlVersion,
+    };
+    if (latestCoreVersion !== lastCheckedVersion) {
+      const message = `🥧 New Pihole version available
+Core: ${latestCoreVersion}
+Admin LTE: ${latestAdminLteVersion}
+FTL: ${latestFtlVersion}
+Upgrade with 'pihole -up'`;
       sendPushoverNotification(message);
-      saveLastCheckedVersion(latestVersion);
+      saveLastCheckedVersion(latestVersions);
     } else {
-      const message = `ℹ No upgrade for Pi-hole, '${latestVersion}' is the latest.`;
+      const message = `ℹ No upgrade for Pi-hole`;
       sendPushoverNotification(message);
     }
   } catch (error) {
@@ -24,5 +37,11 @@ async function main() {
     sendPushoverNotification(message);
   }
 }
+
+const releasePages = {
+  core: 'https://github.com/pi-hole/pi-hole/releases',
+  adminLte: 'https://github.com/pi-hole/AdminLTE/releases',
+  ftl: 'https://github.com/pi-hole/FTL/releases',
+};
 
 main();

@@ -1,3 +1,4 @@
 node_modules
 .env
 last-checked-version.txt
+last-checked-version.json

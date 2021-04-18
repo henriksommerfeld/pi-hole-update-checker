@@ -3,7 +3,7 @@ import rp from 'request-promise';
 
 export function sendPushoverNotification(message) {
   dotenv.config();
-  var options = {
+  const options = {
     method: 'POST',
     uri: 'https://api.pushover.net/1/messages.json',
     body: {
@@ -15,10 +15,10 @@ export function sendPushoverNotification(message) {
   };
 
   rp(options)
-    .then(function (parsedBody) {
+    .then(() => {
       console.log(`Pushover notification sent: ${message}`);
     })
-    .catch(function (err) {
+    .catch(err => {
       console.error(err);
     });
 }

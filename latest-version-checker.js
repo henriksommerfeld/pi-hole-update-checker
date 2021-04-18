@@ -1,9 +1,9 @@
 import rp from 'request-promise';
 import $ from 'cheerio';
 
-export async function getLatestStableVersion() {
+export async function getLatestVersion(url) {
   try {
-    const html = await rp('https://github.com/pi-hole/pi-hole/releases/');
+    const html = await rp(url);
     const links = $('main .release-entry .release-header a', html);
     const text = $(links[0]).text();
     return text;
