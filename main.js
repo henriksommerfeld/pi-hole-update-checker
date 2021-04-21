@@ -19,7 +19,7 @@ async function main() {
       adminLte: latestAdminLteVersion,
       ftl: latestFtlVersion,
     };
-    if (latestCoreVersion !== lastCheckedVersion) {
+    if (JSON.stringify(latestVersions) !== JSON.stringify(lastCheckedVersion)) {
       const message = `🥧 New Pihole version available
 Core: ${latestCoreVersion}
 Admin LTE: ${latestAdminLteVersion}
