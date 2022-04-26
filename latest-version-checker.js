@@ -1,12 +1,13 @@
-import rp from 'request-promise';
-import $ from 'cheerio';
+import rp from "request-promise";
 
-export async function getLatestVersion(url) {
+export async function getLatestVersion(uri) {
   try {
-    const html = await rp(url);
-    const links = $('main .release-entry .release-header a', html);
-    const text = $(links[0]).text();
-    return text;
+    const versionInfo = await rp({
+      method: "GET",
+      uri,
+      headers: { "User-Agent": "my node script" },
+    }).json();
+    return versionInfo.name;
   } catch (error) {
     Promise.reject(error);
   }
