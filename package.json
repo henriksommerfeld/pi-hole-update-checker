@@ -1,6 +1,6 @@
 {
   "name": "pi-hole-update-checker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "main.js",
   "type": "module",
@@ -15,7 +15,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "cheerio": "1.0.0-rc.6",
     "dotenv": "8.2.0",
     "request": "2.88.2",
     "request-promise": "4.2.6"
